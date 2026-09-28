@@ -1,0 +1,24 @@
+{
+  "name": "bambu-bridge",
+  "version": "0.1.0-rc.1",
+  "description": "Read and write Bambu Studio profiles, projects, slicing jobs and LAN printer controls.",
+  "author": {
+    "name": "M-DGayle",
+    "url": "https://github.com/M-DGayle"
+  },
+  "repository": "https://github.com/M-DGayle/bambu-codex-skill",
+  "license": "MIT",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Bambu Bridge",
+    "shortDescription": "Read/write Bambu Studio and LAN printers.",
+    "longDescription": "Discover printers, inspect and edit profiles and 3MF settings, slice projects, read telemetry, transfer files and execute authorized commands. Requires local Studio and compatible LAN firmware.",
+    "developerName": "M-DGayle",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": "Discover my Bambu printer and inspect its status and Studio settings."
+  }
+}

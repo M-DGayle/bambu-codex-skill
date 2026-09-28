@@ -1,0 +1,622 @@
+{
+  "upstream_revision": "da8b44ee34dd349f2ae0df3f1cbae366df482354",
+  "notice": "Factual command/field index extracted from upstream source. Not a complete protocol schema. Fields may be conditional; follow the linked implementation and verify exact model/firmware. No command in this catalog grants authorization to execute it.",
+  "commands": [
+    {
+      "section": "camera",
+      "command": "ipcam_cap_pic_set",
+      "observed_fields": [
+        "control"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevPrintOptions.cpp#L543"
+    },
+    {
+      "section": "camera",
+      "command": "ipcam_delete_oldest_timelapse",
+      "observed_fields": [
+        "storage",
+        "total_layer"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2186"
+    },
+    {
+      "section": "camera",
+      "command": "ipcam_get_media_info",
+      "observed_fields": [
+        "storage",
+        "sub_command",
+        "total_layer"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2175"
+    },
+    {
+      "section": "camera",
+      "command": "ipcam_record_set",
+      "observed_fields": [
+        "control"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2134"
+    },
+    {
+      "section": "camera",
+      "command": "ipcam_resolution_set",
+      "observed_fields": [
+        "resolution"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2156"
+    },
+    {
+      "section": "camera",
+      "command": "ipcam_timelapse",
+      "observed_fields": [
+        "control"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2145"
+    },
+    {
+      "section": "info",
+      "command": "get_version",
+      "observed_fields": [],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1261"
+    },
+    {
+      "section": "print",
+      "command": "ams_change_filament",
+      "observed_fields": [
+        "ams_id",
+        "curr_temp",
+        "extruder_id",
+        "slot_id",
+        "tar_temp",
+        "target"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1635"
+    },
+    {
+      "section": "print",
+      "command": "ams_control",
+      "observed_fields": [
+        "param"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1757"
+    },
+    {
+      "section": "print",
+      "command": "ams_filament_drying",
+      "observed_fields": [
+        "ams_id",
+        "close_power_conflict",
+        "cooling_temp",
+        "duration",
+        "filament",
+        "humidity",
+        "mode",
+        "rotate_tray",
+        "temp"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevFilaSystemCtrl.cpp#L28"
+    },
+    {
+      "section": "print",
+      "command": "ams_filament_setting",
+      "observed_fields": [
+        "ams_id",
+        "cols",
+        "ctype",
+        "nozzle_temp_max",
+        "nozzle_temp_min",
+        "setting_id",
+        "slot_id",
+        "tray_color",
+        "tray_id",
+        "tray_info_idx",
+        "tray_type"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1705"
+    },
+    {
+      "section": "print",
+      "command": "ams_get_rfid",
+      "observed_fields": [
+        "ams_id",
+        "slot_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1735"
+    },
+    {
+      "section": "print",
+      "command": "ams_reset",
+      "observed_fields": [],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevFilaSystemCtrl.cpp#L14"
+    },
+    {
+      "section": "print",
+      "command": "ams_user_setting",
+      "observed_fields": [
+        "ams_id",
+        "calibrate_remain_flag",
+        "startup_read_option",
+        "tray_read_option"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1667"
+    },
+    {
+      "section": "print",
+      "command": "auto_stop_ams_dry",
+      "observed_fields": [],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1768"
+    },
+    {
+      "section": "print",
+      "command": "back_to_center",
+      "observed_fields": [],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevAxisCtrl.cpp#L13"
+    },
+    {
+      "section": "print",
+      "command": "buzzer_ctrl",
+      "observed_fields": [
+        "mode"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1551"
+    },
+    {
+      "section": "print",
+      "command": "calibration",
+      "observed_fields": [
+        "option",
+        "param"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1904"
+    },
+    {
+      "section": "print",
+      "command": "clean_print_error",
+      "observed_fields": [
+        "print_error",
+        "subtask_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1369"
+    },
+    {
+      "section": "print",
+      "command": "close_air_filt",
+      "observed_fields": [],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1502"
+    },
+    {
+      "section": "print",
+      "command": "extrusion_cali",
+      "observed_fields": [
+        "bed_temp",
+        "filaments",
+        "max_volumetric_speed",
+        "mode",
+        "name",
+        "nozzle_diameter",
+        "nozzle_temp",
+        "setting_id",
+        "tray_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1779"
+    },
+    {
+      "section": "print",
+      "command": "extrusion_cali_del",
+      "observed_fields": [
+        "cali_idx",
+        "extruder_id",
+        "filament_id",
+        "nozzle_diameter",
+        "nozzle_id",
+        "nozzle_pos",
+        "nozzle_sn"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2002"
+    },
+    {
+      "section": "print",
+      "command": "extrusion_cali_get",
+      "observed_fields": [
+        "extruder_id",
+        "filament_id",
+        "nozzle_diameter",
+        "nozzle_id",
+        "nozzle_pos",
+        "nozzle_sn"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2030"
+    },
+    {
+      "section": "print",
+      "command": "extrusion_cali_get_result",
+      "observed_fields": [
+        "nozzle_diameter"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2051"
+    },
+    {
+      "section": "print",
+      "command": "extrusion_cali_sel",
+      "observed_fields": [
+        "ams_id",
+        "cali_idx",
+        "filament_id",
+        "nozzle_diameter",
+        "nozzle_pos",
+        "nozzle_sn",
+        "slot_id",
+        "tray_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2061"
+    },
+    {
+      "section": "print",
+      "command": "extrusion_cali_set",
+      "observed_fields": [
+        "bed_temp",
+        "filaments",
+        "k_value",
+        "max_volumetric_speed",
+        "n_coef",
+        "name",
+        "nozzle_diameter",
+        "nozzle_temp",
+        "setting_id",
+        "tray_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1805"
+    },
+    {
+      "section": "print",
+      "command": "flowrate_cali",
+      "observed_fields": [
+        "filaments",
+        "nozzle_diameter",
+        "tray_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2083"
+    },
+    {
+      "section": "print",
+      "command": "flowrate_get_result",
+      "observed_fields": [
+        "nozzle_diameter"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L2124"
+    },
+    {
+      "section": "print",
+      "command": "gcode_file",
+      "observed_fields": [
+        "option",
+        "param"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1898"
+    },
+    {
+      "section": "print",
+      "command": "gcode_line",
+      "observed_fields": [
+        "param",
+        "user_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L3784"
+    },
+    {
+      "section": "print",
+      "command": "get_auto_nozzle_mapping",
+      "observed_fields": [
+        "ams_mapping",
+        "calibration",
+        "extrude_cali_manual_mode",
+        "fila_info",
+        "filament_seq",
+        "group_info",
+        "nozzle_info",
+        "version"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevMappingNozzle.cpp#L69"
+    },
+    {
+      "section": "print",
+      "command": "holder_nozzle_refresh",
+      "observed_fields": [
+        "id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevNozzleRackCtrl.cpp#L101"
+    },
+    {
+      "section": "print",
+      "command": "idle_ignore",
+      "observed_fields": [
+        "err",
+        "type"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1453"
+    },
+    {
+      "section": "print",
+      "command": "ignore",
+      "observed_fields": [
+        "err",
+        "job_id",
+        "param"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1479"
+    },
+    {
+      "section": "print",
+      "command": "nozzle_holder_ctrl",
+      "observed_fields": [
+        "action"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevNozzleRackCtrl.cpp#L35"
+    },
+    {
+      "section": "print",
+      "command": "nozzle_info_confirm",
+      "observed_fields": [
+        "id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevNozzleRackCtrl.cpp#L83"
+    },
+    {
+      "section": "print",
+      "command": "pause",
+      "observed_fields": [
+        "param"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1429"
+    },
+    {
+      "section": "print",
+      "command": "print_option",
+      "observed_fields": [
+        "air_print_detect",
+        "air_purification",
+        "auto_recovery",
+        "auto_switch_filament",
+        "filament_tangle_detect",
+        "nozzle_blob_detect",
+        "nozzle_blob_detect_v2",
+        "option",
+        "sound_enable"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevPrintOptions.cpp#L438"
+    },
+    {
+      "section": "print",
+      "command": "print_speed",
+      "observed_fields": [
+        "param"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1825"
+    },
+    {
+      "section": "print",
+      "command": "refresh_nozzle",
+      "observed_fields": [],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1612"
+    },
+    {
+      "section": "print",
+      "command": "resume",
+      "observed_fields": [
+        "err",
+        "job_id",
+        "param"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1441"
+    },
+    {
+      "section": "print",
+      "command": "select_extruder",
+      "observed_fields": [
+        "extruder_index"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevCtrl.cpp#L63"
+    },
+    {
+      "section": "print",
+      "command": "set_against_continued_heating_mode",
+      "observed_fields": [
+        "enable"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevPrintOptions.cpp#L474"
+    },
+    {
+      "section": "print",
+      "command": "set_airduct",
+      "observed_fields": [
+        "modeId",
+        "submode"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevFan.cpp#L112"
+    },
+    {
+      "section": "print",
+      "command": "set_bed_temp",
+      "observed_fields": [
+        "temp"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1563"
+    },
+    {
+      "section": "print",
+      "command": "set_ctt",
+      "observed_fields": [
+        "ctt_val"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevChamberCtrl.cpp#L10"
+    },
+    {
+      "section": "print",
+      "command": "set_extrusion_length",
+      "observed_fields": [
+        "extruder_index",
+        "length"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1874"
+    },
+    {
+      "section": "print",
+      "command": "set_fan",
+      "observed_fields": [
+        "fan_index",
+        "speed"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevFan.cpp#L80"
+    },
+    {
+      "section": "print",
+      "command": "set_nozzle_temp",
+      "observed_fields": [
+        "extruder_index",
+        "target_temp"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1602"
+    },
+    {
+      "section": "print",
+      "command": "skip_objects",
+      "observed_fields": [
+        "obj_list"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1398"
+    },
+    {
+      "section": "print",
+      "command": "stop",
+      "observed_fields": [
+        "err",
+        "job_id",
+        "param"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1408"
+    },
+    {
+      "section": "print",
+      "command": "xyz_ctrl",
+      "observed_fields": [
+        "axis",
+        "dir",
+        "mode"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevAxisCtrl.cpp#L32"
+    },
+    {
+      "section": "pushing",
+      "command": "pushall",
+      "observed_fields": [
+        "push_target",
+        "version"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1338"
+    },
+    {
+      "section": "system",
+      "command": "get_access_code",
+      "observed_fields": [],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1270"
+    },
+    {
+      "section": "system",
+      "command": "ledctrl",
+      "observed_fields": [
+        "interval_time",
+        "led_mode",
+        "led_node",
+        "led_off_time",
+        "led_on_time",
+        "loop_times"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevLampCtrl.cpp#L39"
+    },
+    {
+      "section": "system",
+      "command": "print_cache_set",
+      "observed_fields": [
+        "config"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L4939"
+    },
+    {
+      "section": "system",
+      "command": "set_door_stat",
+      "observed_fields": [
+        "config"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L4917"
+    },
+    {
+      "section": "system",
+      "command": "uiop",
+      "observed_fields": [
+        "action",
+        "err",
+        "name",
+        "source",
+        "type"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceManager.cpp#L1380"
+    },
+    {
+      "section": "upgrade",
+      "command": "consistency_confirm",
+      "observed_fields": [
+        "src_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevUpgradeCtrl.cpp#L20"
+    },
+    {
+      "section": "upgrade",
+      "command": "mc_for_ams_firmware_upgrade",
+      "observed_fields": [
+        "id",
+        "src_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevFilaAmsSettingCtrl.cpp#L16"
+    },
+    {
+      "section": "upgrade",
+      "command": "start",
+      "observed_fields": [
+        "module",
+        "src_id",
+        "url",
+        "version"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevUpgradeCtrl.cpp#L33"
+    },
+    {
+      "section": "upgrade",
+      "command": "upgrade_confirm",
+      "observed_fields": [
+        "src_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevUpgradeCtrl.cpp#L11"
+    },
+    {
+      "section": "upgrade",
+      "command": "wtm_upgrade",
+      "observed_fields": [
+        "module",
+        "src_id"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevNozzleRackCtrl.cpp#L276"
+    },
+    {
+      "section": "xcam",
+      "command": "xcam_control_set",
+      "observed_fields": [
+        "control",
+        "enable",
+        "halt_print_sensitivity",
+        "module_name",
+        "print_halt"
+      ],
+      "source": "https://github.com/bambulab/BambuStudio/blob/da8b44ee34dd349f2ae0df3f1cbae366df482354/src/slic3r/GUI/DeviceCore/DevPrintOptions.cpp#L459"
+    }
+  ]
+}

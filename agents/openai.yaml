@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bambu Bridge"
+  short_description: "Read and write Bambu Studio and LAN printers"
+  default_prompt: "Use $bambu-bridge to discover my printer and inspect its status and Studio settings."
