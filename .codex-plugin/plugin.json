@@ -8,6 +8,7 @@
   },
   "repository": "https://github.com/M-DGayle/bambu-codex-skill",
   "license": "MIT",
+  "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Bambu Bridge",

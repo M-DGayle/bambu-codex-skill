@@ -16,10 +16,16 @@ def main():
     with zipfile.ZipFile(archive_path, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
         for path in release_files():
             relative = path.relative_to(ROOT).as_posix()
-            data = path.read_bytes()
-            archive.writestr('bambu-bridge/' + relative, data)
+            data = path.read_text(encoding='utf-8').encode('utf-8')
+            entry = zipfile.ZipInfo('bambu-bridge/' + relative, date_time=(2026, 9, 28, 0, 0, 0))
+            entry.compress_type = zipfile.ZIP_DEFLATED
+            entry.external_attr = 0o100644 << 16
+            archive.writestr(entry, data)
             manifest[relative] = hashlib.sha256(data).hexdigest()
-        archive.writestr('bambu-bridge/MANIFEST.sha256.json', json.dumps(manifest, indent=2) + '\n')
+        entry = zipfile.ZipInfo('bambu-bridge/MANIFEST.sha256.json', date_time=(2026, 9, 28, 0, 0, 0))
+        entry.compress_type = zipfile.ZIP_DEFLATED
+        entry.external_attr = 0o100644 << 16
+        archive.writestr(entry, json.dumps(manifest, indent=2) + '\n')
     with zipfile.ZipFile(archive_path) as archive:
         assert archive.testzip() is None
         for name, digest in manifest.items():

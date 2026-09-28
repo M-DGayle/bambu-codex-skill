@@ -3,6 +3,7 @@
 ## 0.1.0-rc.1 - 2026-09-28
 
 - Publish a portable Bambu Bridge skill, CLI and 27-tool MCP server.
+- Include a discoverable plugin skill entrypoint and reproducible release archives with normalized text and fixed ZIP metadata.
 - Discover LAN printers and import matching Studio credentials with explicit certificate pinning.
 - Read/write every profile key, resolve inheritance, edit 3MF settings/XML and back up preference writes.
 - Prepare/slice copied models with installed Studio CLI options, persistent jobs and actual G-code output validation.
