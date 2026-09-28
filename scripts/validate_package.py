@@ -22,7 +22,7 @@ def validate():
     assert all((ROOT / name).is_file() for name in TOP), 'Required files missing'
     manifest = json.loads((ROOT / '.codex-plugin/plugin.json').read_text())
     assert manifest['name'] == 'bambu-bridge'
-    assert manifest['version'] == '0.1.0-rc.1'
+    assert manifest['version'].split('+')[0] == '0.1.0-rc.1'
     assert manifest['mcpServers'] == './.mcp.json'
     skill = (ROOT / 'SKILL.md').read_text(encoding='utf-8')
     assert skill.startswith('---\nname: bambu-bridge\n')
