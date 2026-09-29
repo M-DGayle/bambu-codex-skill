@@ -5,6 +5,7 @@
 - Add an optional C++ integration compiled inside Studio, with GUI-thread session reads, process/filament updates, configuration revision checks, checkpoints, readback and rollback.
 - Add five `studio_live_*` tools and a private local client transport; explicit shared-filament scope and durable request claims prevent accidental scope expansion or automatic replay after timeouts.
 - Include pinned-source preparation and opt-in launch scripts. Stock binaries cannot be attached to; a native build and separate live acceptance are required.
+- Relocate absolute CI paths in extracted Windows dependency metadata before building, retaining the original metadata for recovery.
 - Add `studio_capabilities` and include its saved-file/live-project distinction in `bridge_status`.
 - Reject explicit open-project edit targets before filesystem access; identify saved-copy results and unverified launches in tool responses.
 - Correct the skill's already-open-project workflow: preserve user intent, report unsupported native access, and never silently substitute files, another instance or computer-use automation.

@@ -20,6 +20,8 @@ The script changes GUI startup/shutdown and the GUI source list, and copies the 
 
 On Windows, `scripts/build_native_windows.py --help` exposes a bounded parallel build using explicit source, dependency, SDK, pkg-config, build and install paths. It rejects an existing nonempty install directory unless previously marked as a native bridge build. The first native build can take substantial time; keep its output directory for incremental rebuilds.
 
+The builder also relocates Bambu's absolute CI dependency prefix in the extracted bundle's CMake/pkg-config metadata. Original metadata is retained in adjacent `.bridge-original` files. This handles dependency artifacts that otherwise fail linking against a nonexistent CI drive.
+
 Use a separate install directory and data directory for initial acceptance. Keep the normal Studio executable and the user's unsaved session intact. This repository's Python tests do not establish that a new native build works; validate an actual project read/update/read/checkpoint cycle before migrating a user's session.
 
 ## Launch and connect
