@@ -6,6 +6,8 @@
 
 The native host supports current-project reads, process and filament settings updates, and recovery checkpoints. Geometry, paint and unrelated project configuration remain owned by Studio. It rejects stale revisions, expired requests and edits while a modal dialog, UI job, slicing or export is active. Each accepted write has before/after checkpoints and actual configuration readback. The host claims each request before executing it; a crash cannot cause an automatic replay.
 
+Vector settings must retain their original lengths. In particular, a multi-nozzle or filament-variant list cannot be replaced by a single scalar value. Use the serialized values returned by the current session instead of guessing their shape.
+
 ## Build
 
 The reviewed upstream revision is `da8b44ee34dd349f2ae0df3f1cbae366df482354`. Obtain that source and its compatible dependencies from [Bambu Studio](https://github.com/bambulab/BambuStudio). Follow the upstream Windows build guide, then apply this optional integration before configuring/building:

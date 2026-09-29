@@ -144,6 +144,12 @@ class Bridge : public wxTimer {
                 key == "inherits" || key.find("_settings_id") != std::string::npos || key.find("compatible_") == 0)
                 throw std::runtime_error("Unsupported setting key or serialized value: " + key);
             candidate.set_deserialize_strict(key, it.value().get<std::string>());
+            if (original.option(key)->is_vector()) {
+                const auto *old_values = dynamic_cast<const ConfigOptionVectorBase*>(original.option(key));
+                const auto *new_values = dynamic_cast<const ConfigOptionVectorBase*>(candidate.option(key));
+                if (!old_values || !new_values || old_values->size() != new_values->size())
+                    throw std::runtime_error("Preserve nozzle/filament variant vector length for: " + key);
+            }
         }
         auto errors = candidate.validate();
         if (!errors.empty()) throw std::runtime_error("Invalid configuration: " + json(errors).dump());
