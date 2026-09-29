@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Add `studio_capabilities` and include its saved-file/live-project distinction in `bridge_status`.
+- Reject explicit open-project edit targets before filesystem access; identify saved-copy results and unverified launches in tool responses.
+- Correct the skill's already-open-project workflow: preserve user intent, report unsupported native access, and never silently substitute files, another instance or computer-use automation.
+- Document inspected upstream interfaces and the remaining Studio-side integration needed for actual live editing. This change does not add live editing.
+
 ## 0.1.0-rc.1 - 2026-09-28
 
 - Publish a portable Bambu Bridge skill, CLI and 27-tool MCP server.

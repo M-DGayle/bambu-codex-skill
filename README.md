@@ -1,6 +1,8 @@
 # Bambu Bridge for Codex
 
-A read/write **`$bambu-bridge` skill, CLI and 27-tool MCP connector** for Bambu Studio and LAN printers. Automatically discover printers, reuse their locally saved Studio access codes, inspect/edit projects and profiles, slice models, read telemetry and files, and execute authorized printer commands.
+A read/write **`$bambu-bridge` skill, CLI and 28-tool MCP connector** for saved Bambu Studio projects and LAN printers. Automatically discover printers, reuse their locally saved Studio access codes, inspect/edit saved projects and profiles, slice models, read telemetry and files, and execute authorized printer commands.
+
+**Already-open project:** call `studio_capabilities`. This version cannot read or modify the unsaved project in Studio. File edits do not update it. The skill preserves that distinction and does not substitute computer-use automation. See [native interface findings and remaining integration work](references/live-project.md).
 
 Independent integration, not a Bambu Lab product. This is a release candidate. Broad interfaces do **not** mean every desktop action or firmware feature is available.
 
@@ -49,7 +51,7 @@ See [setup](references/setup.md) for automatic discovery, private credentials, c
 
 ### Limits
 
-- There is no general Studio GUI/add-in API here. Unsaved GUI state, interactive selections and GUI-only painting tools are not exposed. Save a 3MF to inspect/edit its serialized settings and geometry.
+- There is no general Studio GUI/add-in API here. Unsaved GUI state, interactive selections and GUI-only painting tools are not exposed. Saved 3MF editing is a separate workflow; it does not satisfy a request to edit the already-open project. Explicit `open_project` mutation targets are rejected without file changes.
 - LAN command access depends on model, firmware and LAN/Developer Mode. The connector does not bypass authentication, impersonate an official cloud client, activate Developer Mode remotely, or manage firmware flashing.
 - Camera streaming/snapshots and cloud/account operations are not implemented. Returned camera settings and known firmware commands remain accessible.
 - Advanced print-start, AMS, nozzle and calibration formats must be checked against the exact model/firmware. A command name or MQTT acknowledgement is not proof of support or execution.

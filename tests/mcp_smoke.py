@@ -19,7 +19,7 @@ async def main():
                 init = await session.initialize()
                 listing = await session.list_tools()
                 names = {t.name for t in listing.tools}
-                expected = {'bridge_status', 'discover_printers', 'printer_certificate', 'configure_discovered_printer',
+                expected = {'bridge_status', 'studio_capabilities', 'discover_printers', 'printer_certificate', 'configure_discovered_printer',
                             'studio_profiles', 'studio_settings_catalog', 'studio_profile_read', 'studio_profile_update',
                             'studio_preferences_read', 'studio_preferences_update', 'project_inspect', 'project_read_member',
                             'project_update', 'studio_open', 'studio_slice', 'studio_run', 'studio_job', 'studio_cancel',
@@ -27,6 +27,13 @@ async def main():
                             'printer_download', 'printer_upload', 'printer_delete'}
                 assert expected <= names, expected - names
                 assert all(t.inputSchema['type'] == 'object' for t in listing.tools)
+                capability = await session.call_tool('studio_capabilities', {})
+                assert not capability.isError, capability
+                assert json.loads(capability.content[0].text)['open_project']['update'] is False
+                rejected_live = await session.call_tool('project_update', {
+                    'path': 'missing.3mf', 'expected_sha256': '', 'target': 'open_project', 'confirmed': True})
+                assert rejected_live.isError, rejected_live
+                assert 'Live project editing is unsupported' in rejected_live.content[0].text
                 for name in ('printer_control', 'printer_command', 'printer_delete', 'studio_preferences_update'):
                     tool = next(t for t in listing.tools if t.name == name)
                     assert tool.annotations.destructiveHint is True

@@ -17,6 +17,8 @@ mcp = FastMCP('bambu-bridge', instructions=(
     'not a sandbox. Use only the exact device/actions authorized by the user. Firmware may reject commands. '
     'A broker acknowledgement is not execution proof. Retain write request IDs and inspect operation_status on uncertain outcomes. '
     'Use the installed settings catalog and exact profiles, not guessed model-specific settings. '
+    'For already-open project requests, call studio_capabilities first. The bridge cannot edit unsaved GUI state. '
+    'Never substitute file editing, launching another instance, or computer use for requested live editing. '
     'Studio CLI does not expose every desktop UI operation. Never claim complete GUI/firmware coverage.'))
 READ = ToolAnnotations(readOnlyHint=True, destructiveHint=False, openWorldHint=False)
 LOCAL = ToolAnnotations(readOnlyHint=False, destructiveHint=False, openWorldHint=False)
@@ -31,10 +33,17 @@ def bridge_status() -> dict:
     except ValueError:
         executable = None
     return {'studio_executable': executable, 'studio_data_directory': str(studio.data_directory()),
+            'studio_capabilities': studio.capabilities(),
             'printers': [{'alias': k, 'host': v.get('host'), 'allow_control': v.get('allow_control', False)}
                          for k, v in common.config().get('printers', {}).items()],
             'limitations': ['No general Studio GUI/add-in API', 'LAN firmware support varies',
                             'No Bambu cloud login, camera streaming, firmware flashing, or remote Developer Mode activation']}
+
+
+@mcp.tool(annotations=READ)
+def studio_capabilities() -> dict:
+    """Check saved-file versus open-project support before Studio edits. No GUI, printer or network access. Unsupported live state remains unknown."""
+    return studio.capabilities()
 
 
 @mcp.tool(annotations=READ)
@@ -109,9 +118,9 @@ def project_read_member(path: str, member: str) -> dict:
 @mcp.tool(annotations=LOCAL)
 def project_update(path: str, expected_sha256: str, settings: dict | None = None,
                    remove_settings: list[str] | None = None, text_members: dict[str, str] | None = None,
-                   confirmed: bool = False) -> dict:
-    """Write arbitrary global settings or exact existing XML/JSON members to a new 3MF; strips stale slice data. Original preserved."""
-    return studio.project_update(path, settings or {}, remove_settings or [], text_members or {}, expected_sha256, confirmed)
+                   confirmed: bool = False, target: Literal['saved_file', 'open_project'] = 'saved_file') -> dict:
+    """Write settings/XML to a saved 3MF copy, preserving the original and stripping stale slices. For an already-open project use target=open_project: currently rejected without changes. File success NEVER updates GUI state."""
+    return studio.project_update(path, settings or {}, remove_settings or [], text_members or {}, expected_sha256, confirmed, target)
 
 
 @mcp.tool(annotations=LOCAL)

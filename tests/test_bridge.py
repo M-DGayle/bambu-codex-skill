@@ -47,6 +47,48 @@ class Isolated(unittest.TestCase):
         return path
 
 
+class LiveTargetTests(Isolated):
+    def test_open_project_rejected_before_any_file_or_process_action(self):
+        with patch('studio.artifact_dir') as artifact, patch('studio.sha256') as digest, \
+                patch('studio.subprocess.Popen') as launch:
+            with self.assertRaisesRegex(ValueError, 'Live project editing is unsupported'):
+                studio.project_update('missing.3mf', {'wall_loops': '4'}, [], {}, '', True, 'open_project')
+            artifact.assert_not_called()
+            digest.assert_not_called()
+            launch.assert_not_called()
+        self.assertFalse((self.root / 'private').exists())
+
+    def test_capabilities_do_not_invent_a_session_or_touch_devices(self):
+        with patch('studio.psutil.process_iter') as processes, patch('studio.subprocess.Popen') as launch:
+            value = studio.capabilities()
+            self.assertIsNone(value['open_project']['project_identity'])
+            self.assertIsNone(value['open_project']['unsaved_changes'])
+            for action in ('read', 'update', 'save', 'slice'):
+                self.assertFalse(value['open_project'][action])
+            self.assertFalse(value['computer_use_fallback'])
+            processes.assert_not_called()
+            launch.assert_not_called()
+
+    def test_saved_copy_evidence_preserves_paint_and_custom_members(self):
+        source = self.project()
+        with zipfile.ZipFile(source, 'a') as archive:
+            archive.writestr('Metadata/model_settings.config', '<config><part paint="kept"/></config>')
+            archive.writestr('Metadata/custom.json', '{"mapping":[4,1,2,3]}')
+        original = source.read_bytes()
+        result = studio.project_update(str(source), {'wall_loops': '4'}, [], {}, common.sha256(source), True)
+        self.assertEqual(result['target'], 'saved_file')
+        self.assertFalse(result['open_project_updated'])
+        self.assertEqual(source.read_bytes(), original)
+        with zipfile.ZipFile(source) as before, zipfile.ZipFile(result['path']) as after:
+            for member in ('3D/3dmodel.model', 'Metadata/model_settings.config', 'Metadata/custom.json'):
+                self.assertEqual(before.read(member), after.read(member))
+            self.assertEqual(json.loads(after.read('Metadata/project_settings.config'))['wall_loops'], '4')
+
+    def test_unknown_target_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'Target must'):
+            studio.project_update('missing.3mf', {}, [], {}, '', True, 'typo')
+
+
 class StateTests(Isolated):
     def test_atomic_json_and_private_state(self):
         path = self.json('state.json', {'a': 1})

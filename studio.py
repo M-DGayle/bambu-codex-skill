@@ -19,6 +19,22 @@ import psutil
 from common import artifact_dir, atomic_json, config, read_json, redact, require_write, sha256, state_dir, SECRET
 
 
+def capabilities() -> dict:
+    """Report this connector's implemented backends, not inferred GUI state."""
+    return {
+        'saved_projects': {'read': True, 'edit_copy': True, 'slice_cli': True},
+        'open_project': {
+            'read': False, 'update': False, 'save': False, 'slice': False,
+            'backend': None, 'status': 'unsupported',
+            'project_identity': None, 'unsaved_changes': None,
+            'reason': 'This bridge has no in-process Bambu Studio project API. File edits do not update the open project.',
+        },
+        'computer_use_fallback': False,
+        'next_step': 'Live editing requires a native Studio integration with project identity, checkpoint, mutation and readback support.',
+        'source_notes': 'references/live-project.md',
+    }
+
+
 def studio_executable() -> Path:
     setting = os.environ.get('BAMBU_STUDIO_PATH') or config().get('studio_path')
     if setting:
@@ -253,7 +269,13 @@ def project_read_member(path: str, member: str) -> dict:
 
 
 def project_update(path: str, settings: dict, remove_settings: list[str], text_members: dict[str, str],
-                   expected_sha256: str, confirmed: bool) -> dict:
+                   expected_sha256: str, confirmed: bool, target: str = 'saved_file') -> dict:
+    # Reject an unsupported target before filesystem access or artifact creation.
+    if target == 'open_project':
+        raise ValueError('Live project editing is unsupported: no native Studio integration is connected. '
+                         'No file was edited. Do not substitute a saved-file copy or computer-use automation.')
+    if target != 'saved_file':
+        raise ValueError('Target must be saved_file or open_project.')
     require_write(confirmed)
     source = Path(path).expanduser().resolve(strict=True)
     if sha256(source) != expected_sha256:
@@ -298,6 +320,7 @@ def project_update(path: str, settings: dict, remove_settings: list[str], text_m
                     with original.open(item) as read, output.open(item, 'w') as write:
                         shutil.copyfileobj(read, write, 1024 * 1024)
     return {'path': str(destination), 'sha256': sha256(destination), 'original_preserved': True,
+            'target': 'saved_file', 'open_project_updated': False,
             'removed_stale_slice_members': removed, 'requires_reslice': True,
             'validation': 'Archive and XML/JSON syntax checked; geometry and setting semantics require Studio validation.'}
 
@@ -308,7 +331,8 @@ def open_project(path: str, confirmed: bool) -> dict:
     if source.suffix.lower() not in ('.3mf', '.stl', '.step', '.stp', '.obj', '.gcode'):
         raise ValueError('Unsupported model/project extension.')
     process = subprocess.Popen([str(studio_executable()), str(source)], shell=False)
-    return {'status': 'open_requested', 'pid': process.pid, 'path': str(source), 'ui_load_confirmed': False}
+    return {'status': 'open_requested', 'pid': process.pid, 'path': str(source), 'ui_load_confirmed': False,
+            'existing_session_targeted': False, 'live_settings_verified': False}
 
 
 def start_job(arguments: list[str], confirmed: bool, timeout_seconds: int = 600,

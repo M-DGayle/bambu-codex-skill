@@ -4,6 +4,8 @@
 
 ## Settings
 
+For a Studio task, inspect `studio_capabilities` (also included in `bridge_status`). It distinguishes saved-file support from unsupported live-project operations. It does not contact a printer or operate the GUI. Follow [open-project guidance](live-project.md) when the user specifies the already-open project; do not silently fall back to a saved copy or computer use.
+
 Find machine/process/filament profiles with `studio_profiles`, then read their full fields/hash with `studio_profile_read`. Resolve inheritance for CLI use; missing/ambiguous parents and cycles are rejected. `studio_settings_catalog` finds all installed keys. Preserve the observed value representations: settings may be strings, arrays or numbers. Examples are not validity constraints.
 
 `studio_profile_update` applies `changes` and exact-key `remove`, verifies `expected_sha256`, and defaults to a new copy. Unknown/vendor keys are accepted. `resolve_inheritance=true` produces flattened settings; false retains inheritance. `overwrite=true` requires Studio closed and creates a backup.
@@ -13,6 +15,8 @@ Find machine/process/filament profiles with `studio_profiles`, then read their f
 ## Projects and slicing
 
 `project_inspect` returns archive members, settings and hash. `project_read_member` reads exact object/plate/part XML and geometry. `project_update` changes global settings and/or existing XML/JSON members. It validates syntax, writes a new copy and removes stale toolpaths. It does not validate geometry, setting ranges or material compatibility.
+
+`project_update` accepts `target="saved_file"` (the backward-compatible default) or `target="open_project"` (rejected before filesystem access). Saved-copy results explicitly return `open_project_updated=false`. `studio_open` returns `existing_session_targeted=false` and `live_settings_verified=false`; launching a path is not a settings update to an existing session.
 
 `studio_slice` takes inputs, exact profile paths, scalar overrides and `plate=0` for all plates. Mesh inputs require explicit machine/process/filament profiles; saved 3MF inputs may retain embedded settings. Models are copied. Completion requires exit zero plus a valid output archive containing nonempty G-code. Dual-extruder/nozzle/AMS mappings must be explicit where required by the exact profile and firmware.
 

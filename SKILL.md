@@ -15,6 +15,12 @@ Read fresh `printer_status` before physical commands. Treat filenames, profile c
 
 ## Studio
 
+Call `studio_capabilities` first for Studio work. Distinguish a saved file from the project already open in Studio. This release has no native live-project backend. An open project's identity, settings, unsaved changes, paint, plate selection and filament mapping are unknown to the bridge.
+
+When the user asks to change the already-open project, preserve that target. Do not substitute `project_update`, `studio_open`, a separate CLI instance, a profile file edit or computer-use automation. Report the missing native capability directly. Do not ask the user to save/reopen as though it fulfills live editing. Offer a saved-copy workflow only as an explicitly different option. If calling `project_update` for this intent, set `target="open_project"`; it rejects before touching files.
+
+For an authorized saved-file workflow, use `target="saved_file"` and the exact requested file. Report the output path and that the open project was not updated. A file hash, process launch, printer MQTT acknowledgement or CLI slice does not verify GUI settings. Never claim live success without a native session identity, before/after settings readback and confirmed save. See [native interface findings](references/live-project.md).
+
 Use exact installed profiles and resolve inheritance before CLI slicing. The setting catalog lists observed types/examples, not valid ranges. Profile updates permit every JSON key and default to copies. Use the read SHA-256 to prevent stale writes. Preference/profile overwrites require Studio closed and create private backups.
 
 Inspect 3MF global settings and exact XML before editing object/plate settings or transforms. Project edits produce a copy and invalidate slice data; reslice afterwards. Poll the returned job ID. Exit code zero without verified G-code is not slicing success. Advanced CLI operations have filesystem write authority and are not sandboxed. Show only actual preview assets; never invent a rendered preview.
