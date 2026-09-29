@@ -57,6 +57,7 @@ class Bridge : public wxTimer {
     fs::path directory;
     std::string session = uid(), token = uid() + uid();
     bool handling = false;
+    bool ready = false;
     json snapshot() {
         auto *plater = wxGetApp().plater();
         auto *bundle = wxGetApp().preset_bundle;
@@ -82,9 +83,16 @@ class Bridge : public wxTimer {
         state["window_active"] = wxGetApp().mainframe->IsActive();
         state["title"] = wxGetApp().mainframe->GetTitle().ToUTF8().data();
         state["busy"] = plater->is_background_process_slicing();
+        state["startup_complete"] = ready;
+        state["modal_dialogs"] = json::array();
+        for (auto *window : wxTopLevelWindows) {
+            auto *dialog = dynamic_cast<wxDialog*>(window);
+            if (dialog && dialog->IsModal()) state["modal_dialogs"].push_back(dialog->GetTitle().ToUTF8().data());
+        }
         return state;
     }
     void writable() {
+        if (!ready) throw std::runtime_error("Studio startup is not complete; no changes applied");
         auto *p = wxGetApp().plater();
         if (!p || p->is_background_process_slicing() || p->is_export_gcode_scheduled() || !p->get_ui_job_worker().is_idle())
             throw std::runtime_error("Studio is busy; no changes applied");
@@ -179,6 +187,7 @@ class Bridge : public wxTimer {
         }
     }
 public:
+    void finish_startup() { ready = true; }
     explicit Bridge(const fs::path &root) {
         directory = root / session;
         fs::create_directories(directory / "requests");
@@ -226,4 +235,5 @@ void start_codex_studio_bridge() {
     try { bridge = std::make_unique<Bridge>(fs::u8path(root.ToUTF8().data())); } catch (...) { bridge.reset(); }
 }
 void stop_codex_studio_bridge() { bridge.reset(); }
+void finish_codex_studio_bridge_startup() { if (bridge) bridge->finish_startup(); }
 }}

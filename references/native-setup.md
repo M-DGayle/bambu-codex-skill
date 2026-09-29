@@ -32,6 +32,8 @@ The native host creates a random session directory and token; `studio_live_sessi
 
 Call `studio_live_read(session_id)` to identify the current project, unsaved state, settings and revision. A session file alone does not prove responsiveness. For updates, supply values in the serialized format returned by read (for example `"4"` or `"9%"`). Filament writes currently require an `editable=true` slot (the selected filament preset) and the full list of slots sharing it. Inactive library presets are rejected to preserve preset/3MF serialization semantics. Shared presets are edited together; no hidden duplicate filament is created.
 
+The host starts before project post-initialization and reports `startup_complete` plus modal-dialog titles. Reads can diagnose startup prompts through Studio's own API. Writes remain disabled until post-initialization finishes and all modal dialogs close.
+
 `studio_live_checkpoint` writes the current in-memory project as a recovery 3MF in the private session directory. This is not Save As: it leaves the active project's filename and normal dirty-state semantics intact. After a timeout, query `studio_live_operation` with the same session/request UUID. Never submit a new write just because a response is slow.
 
 ## Limitations
