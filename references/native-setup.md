@@ -18,6 +18,8 @@ python scripts/prepare_native_source.py <Studio-source-directory>
 
 The script changes GUI startup/shutdown and the GUI source list, and copies the two bridge files into the build tree. It does not patch the installed Studio binary. Source compilation is required; copying the C++ files into an installed app does not activate the bridge.
 
+On Windows, `scripts/build_native_windows.py --help` exposes a bounded parallel build using explicit source, dependency, SDK, pkg-config, build and install paths. It rejects an existing nonempty install directory unless previously marked as a native bridge build. The first native build can take substantial time; keep its output directory for incremental rebuilds.
+
 Use a separate install directory and data directory for initial acceptance. Keep the normal Studio executable and the user's unsaved session intact. This repository's Python tests do not establish that a new native build works; validate an actual project read/update/read/checkpoint cycle before migrating a user's session.
 
 ## Launch and connect
