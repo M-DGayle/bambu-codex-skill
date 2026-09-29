@@ -24,7 +24,8 @@ async def main():
                             'studio_preferences_read', 'studio_preferences_update', 'project_inspect', 'project_read_member',
                             'project_update', 'studio_open', 'studio_slice', 'studio_run', 'studio_job', 'studio_cancel',
                             'printer_status', 'printer_control', 'printer_command', 'operation_status', 'printer_files',
-                            'printer_download', 'printer_upload', 'printer_delete'}
+                            'printer_download', 'printer_upload', 'printer_delete', 'studio_live_sessions',
+                            'studio_live_read', 'studio_live_update', 'studio_live_checkpoint', 'studio_live_operation'}
                 assert expected <= names, expected - names
                 assert all(t.inputSchema['type'] == 'object' for t in listing.tools)
                 capability = await session.call_tool('studio_capabilities', {})

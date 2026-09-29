@@ -2,7 +2,7 @@
 
 ## Current capability
 
-The bridge edits saved files and starts CLI jobs. It does **not** read, save, mutate or slice the project already open in Studio. `studio_capabilities` reports implemented connector capabilities, not a probe proving every possible Studio version lacks an API. Unknown project identity and unsaved changes are returned as null. No mouse, keyboard, accessibility automation or process injection is used as a fallback.
+The original bridge edits saved files and starts CLI jobs. The optional [native integration](native-setup.md) now supplies dedicated current-project reads, process/filament updates and checkpoints from within a bridge-enabled Studio build. It does not attach to a stock process or provide live slicing. `studio_capabilities` reports session availability, not responsiveness or a claim about every possible Studio version. Read the selected session to obtain actual project identity and unsaved state. No mouse, keyboard, accessibility automation or process injection is used.
 
 `project_update(target="open_project")` rejects before filesystem access. Its default `saved_file` target preserves compatibility with existing saved-file clients; agents must select the target from user intent. Successful saved-file edits return `open_project_updated=false`. `studio_open` only launches a path; it neither targets an existing session nor verifies settings. Do not replace an unsaved project with an independently generated 3MF.
 
@@ -18,9 +18,9 @@ Inspected upstream revision `da8b44ee34dd349f2ae0df3f1cbae366df482354`:
 
 These findings explain why a skill instruction or Python wrapper alone cannot provide live editing through the inspected interfaces. They are not evidence that a future Studio build cannot add it.
 
-## Required native implementation (not implemented)
+## Native integration requirements and boundaries
 
-A Studio-side integration would need to execute on the GUI thread and provide:
+The included Studio-side integration executes on the GUI thread. The design calls for:
 
 1. A session/project identifier and revision, plus exact current process, filament, object and plate configuration.
 2. A checkpoint of the current model, paint, mappings and unsaved edits before mutation.
@@ -29,4 +29,4 @@ A Studio-side integration would need to execute on the GUI thread and provide:
 5. Readback and save confirmation tied to the same project/revision, with bounded busy/timeout behavior and no automatic retry of uncertain writes.
 6. An authenticated local transport, explicit capability negotiation and no remote printing authority.
 
-Adding this to Studio requires a separately built/tested native integration. No such build is shipped or installed by this bridge update. Do not tell users live editing is fixed until that integration has passed an actual unsaved-project preservation test.
+The source is included under `native/`, with pinned preparation and launch scripts. Compilation and live acceptance must be verified separately on the target system. The integration only writes process/filament settings and saves private checkpoints; it does not offer arbitrary model or plate mutations, live slicing or normal Save As. Do not tell users their open project was updated until its session's actual readback and checkpoint results confirm it.

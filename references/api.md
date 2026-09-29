@@ -4,7 +4,17 @@
 
 ## Settings
 
-For a Studio task, inspect `studio_capabilities` (also included in `bridge_status`). It distinguishes saved-file support from unsupported live-project operations. It does not contact a printer or operate the GUI. Follow [open-project guidance](live-project.md) when the user specifies the already-open project; do not silently fall back to a saved copy or computer use.
+For a Studio task, inspect `studio_capabilities` (also included in `bridge_status`). It distinguishes saved-file support from optional native session availability. Discovery does not establish responsiveness; read the exact session. Follow [native setup](native-setup.md) when the user specifies the already-open project; do not silently fall back to a saved copy or computer use.
+
+## Native active-project tools
+
+- `studio_live_sessions`: discover opted-in native process/session IDs without returning authentication tokens.
+- `studio_live_read(session_id)`: obtain actual in-memory project identity, dirty state, configuration revision, process/printer/project settings, filament slots and object metadata. Values are serialized strings.
+- `studio_live_update(session_id, expected_revision, changes, request_id, scope, filament_slot, affected_slots, confirmed)`: edit process or filament configuration on Studio's GUI thread. Slot indices start at 1; filament writes must name all slots sharing the selected preset. Creates before/after project checkpoints and verifies changed values. Geometry and printer configuration are not writable through this endpoint.
+- `studio_live_checkpoint(session_id, expected_revision, request_id, confirmed)`: save the in-memory project to a private recovery 3MF without changing its active filename.
+- `studio_live_operation(session_id, request_id)`: retrieve a recorded outcome after an uncertain timeout. Never replay with a new UUID merely because the UI is busy.
+
+The native host rejects stale configuration revisions, expired requests and busy/modal writes. If no bridge-enabled Studio process is connected, these tools cannot attach to the stock application. Native compilation, Python tests and successful live read/write verification are separate validation gates.
 
 Find machine/process/filament profiles with `studio_profiles`, then read their full fields/hash with `studio_profile_read`. Resolve inheritance for CLI use; missing/ambiguous parents and cycles are rejected. `studio_settings_catalog` finds all installed keys. Preserve the observed value representations: settings may be strings, arrays or numbers. Examples are not validity constraints.
 

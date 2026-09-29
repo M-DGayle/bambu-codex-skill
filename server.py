@@ -10,6 +10,7 @@ import common
 import printer
 import setup_bridge
 import studio
+import native_client
 
 mcp = FastMCP('bambu-bridge', instructions=(
     'Read/write Bambu Studio and LAN printer tools. Start with bridge_status and discover_printers. '
@@ -17,7 +18,8 @@ mcp = FastMCP('bambu-bridge', instructions=(
     'not a sandbox. Use only the exact device/actions authorized by the user. Firmware may reject commands. '
     'A broker acknowledgement is not execution proof. Retain write request IDs and inspect operation_status on uncertain outcomes. '
     'Use the installed settings catalog and exact profiles, not guessed model-specific settings. '
-    'For already-open project requests, call studio_capabilities first. The bridge cannot edit unsaved GUI state. '
+    'For already-open project requests, call studio_capabilities and studio_live_sessions, then studio_live_read. '
+    'Native live editing requires the optional Studio-side integration. '
     'Never substitute file editing, launching another instance, or computer use for requested live editing. '
     'Studio CLI does not expose every desktop UI operation. Never claim complete GUI/firmware coverage.'))
 READ = ToolAnnotations(readOnlyHint=True, destructiveHint=False, openWorldHint=False)
@@ -42,8 +44,41 @@ def bridge_status() -> dict:
 
 @mcp.tool(annotations=READ)
 def studio_capabilities() -> dict:
-    """Check saved-file versus open-project support before Studio edits. No GUI, printer or network access. Unsupported live state remains unknown."""
+    """Check file operations and native session availability before Studio edits. Discovery does not prove session responsiveness; read the session before mutation."""
     return studio.capabilities()
+
+
+@mcp.tool(annotations=READ)
+def studio_live_sessions() -> dict:
+    """Find opted-in native Studio sessions without UI automation. Returns IDs, never authentication tokens. No automatic session selection."""
+    return native_client.sessions()
+
+
+@mcp.tool(annotations=READ)
+def studio_live_read(session_id: str) -> dict:
+    """Read the running Studio project's current process/filament settings, objects, identity and revision on its GUI thread."""
+    return native_client.request(session_id, 'read')
+
+
+@mcp.tool(annotations=LOCAL)
+def studio_live_update(session_id: str, expected_revision: str, changes: dict, request_id: str,
+                       scope: Literal['process', 'filament'] = 'process', filament_slot: int | None = None,
+                       affected_slots: list[int] | None = None, confirmed: bool = False) -> dict:
+    """Change settings IN the selected native Studio session. Uses serialized string values from a fresh read. Checks revision, checkpoints before/after, verifies readback; does not print. Reuse request_id after uncertainty, never replay with a new ID."""
+    return native_client.update(session_id, expected_revision, changes, request_id, scope, filament_slot, affected_slots, confirmed)
+
+
+@mcp.tool(annotations=LOCAL)
+def studio_live_checkpoint(session_id: str, expected_revision: str, request_id: str, confirmed: bool = False) -> dict:
+    """Save the actual in-memory project to a private recovery 3MF. Keeps the active project's filename and unsaved-state semantics."""
+    common.require_write(confirmed)
+    return native_client.request(session_id, 'checkpoint', {'expected_revision': expected_revision}, request_id, 60)
+
+
+@mcp.tool(annotations=READ)
+def studio_live_operation(session_id: str, request_id: str) -> dict:
+    """Read a native operation's recorded outcome after a timeout, without resubmitting it."""
+    return native_client.operation_status(session_id, request_id)
 
 
 @mcp.tool(annotations=READ)

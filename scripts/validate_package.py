@@ -6,8 +6,8 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 TOP = ('AGENTS.md', 'README.md', 'CHANGELOG.md', 'LICENSE', 'SKILL.md', 'requirements.txt',
-       'common.py', 'studio.py', 'worker.py', 'printer.py', 'server.py', 'bridge_client.py', 'setup_bridge.py')
-DIRECTORIES = ('.codex-plugin', 'agents', 'skills', 'references', 'scripts', 'tests', '.github')
+       'common.py', 'studio.py', 'native_client.py', 'worker.py', 'printer.py', 'server.py', 'bridge_client.py', 'setup_bridge.py')
+DIRECTORIES = ('.codex-plugin', 'agents', 'skills', 'references', 'scripts', 'tests', '.github', 'native')
 
 
 def release_files():

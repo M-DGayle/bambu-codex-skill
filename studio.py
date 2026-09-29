@@ -21,16 +21,20 @@ from common import artifact_dir, atomic_json, config, read_json, redact, require
 
 def capabilities() -> dict:
     """Report this connector's implemented backends, not inferred GUI state."""
+    import native_client
+    available = native_client.sessions()['live_backend_available']
     return {
         'saved_projects': {'read': True, 'edit_copy': True, 'slice_cli': True},
         'open_project': {
-            'read': False, 'update': False, 'save': False, 'slice': False,
-            'backend': None, 'status': 'unsupported',
+            'read': available, 'update': available, 'save': available, 'slice': False,
+            'backend': 'studio-native-wx' if available else None,
+            'status': 'native_session_detected_read_required' if available else 'native_build_not_connected',
             'project_identity': None, 'unsaved_changes': None,
-            'reason': 'This bridge has no in-process Bambu Studio project API. File edits do not update the open project.',
+            'reason': 'Use studio_live_sessions/read/update/checkpoint with the exact native session. Saved-file edits do not update it.',
+            'update_scopes': ['process', 'filament'], 'save_mode': 'private_checkpoint',
         },
         'computer_use_fallback': False,
-        'next_step': 'Live editing requires a native Studio integration with project identity, checkpoint, mutation and readback support.',
+        'next_step': 'Read an opted-in Studio session, then pass its revision to a native update. The optional Studio-side build must be running.',
         'source_notes': 'references/live-project.md',
     }
 

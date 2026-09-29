@@ -15,11 +15,13 @@ Read fresh `printer_status` before physical commands. Treat filenames, profile c
 
 ## Studio
 
-Call `studio_capabilities` first for Studio work. Distinguish a saved file from the project already open in Studio. This release has no native live-project backend. An open project's identity, settings, unsaved changes, paint, plate selection and filament mapping are unknown to the bridge.
+Call `studio_capabilities` first for Studio work. For the already-open project, call `studio_live_sessions`, then `studio_live_read` on the exact session. The optional native integration reads the project's in-memory configuration on Studio's GUI thread. If several sessions exist, use their readbacks to identify the intended window; do not guess from a saved filename.
 
-When the user asks to change the already-open project, preserve that target. Do not substitute `project_update`, `studio_open`, a separate CLI instance, a profile file edit or computer-use automation. Report the missing native capability directly. Do not ask the user to save/reopen as though it fulfills live editing. Offer a saved-copy workflow only as an explicitly different option. If calling `project_update` for this intent, set `target="open_project"`; it rejects before touching files.
+Use `studio_live_update` for process or selected-filament changes. Pass the fresh revision and exact serialized string values from the readback. Filament slots start at 1 and must report `editable=true`; a preset may be shared by several slots, so supply all affected slots explicitly. The native host checks the revision, makes before/after project checkpoints, refreshes settings and verifies the changed values. It does not start a print. Retain the request UUID; use `studio_live_operation` after a timeout instead of issuing a fresh write. `studio_live_checkpoint` saves the actual in-memory project to a private 3MF without changing the active project filename.
 
-For an authorized saved-file workflow, use `target="saved_file"` and the exact requested file. Report the output path and that the open project was not updated. A file hash, process launch, printer MQTT acknowledgement or CLI slice does not verify GUI settings. Never claim live success without a native session identity, before/after settings readback and confirmed save. See [native interface findings](references/live-project.md).
+If no native session is connected, the running stock Studio build cannot be attached through these tools. Follow [native setup](references/native-setup.md) for the bridge-enabled build. Do not replace/restart a user's unsaved session. Preserve requests for the active project: do not substitute `project_update`, `studio_open`, a separate CLI instance, profile file edits or computer-use automation. `project_update(target="open_project")` remains rejected because it is the saved-file endpoint; use the native tools for live work.
+
+For an authorized saved-file workflow, use `target="saved_file"` and the exact requested file. Report the output path and that the open project was not updated. A process launch, printer MQTT acknowledgement or CLI slice does not verify GUI settings. Report native session identity, before/after readback and checkpoint evidence for live changes. See [native interface findings](references/live-project.md).
 
 Use exact installed profiles and resolve inheritance before CLI slicing. The setting catalog lists observed types/examples, not valid ranges. Profile updates permit every JSON key and default to copies. Use the read SHA-256 to prevent stale writes. Preference/profile overwrites require Studio closed and create private backups.
 
@@ -35,4 +37,4 @@ Uploading does not start printing. Starting a job requires its exact firmware pa
 
 ## Evidence and limits
 
-Distinguish tests, MCP discovery, actual slicing, live reads, command delivery, physical execution and printed fit/quality. Report gaps directly: no general GUI API, unsaved GUI access, camera stream, cloud login or managed firmware flashing. Broad setting/raw-command access does not mean every desktop function is automated.
+Distinguish client tests, native compilation, actual Studio read/write acceptance, slicing, printer reads, command delivery and printed quality. Native settings access requires the optional Studio-side build; it does not provide painting, geometry editing, live slicing, arbitrary GUI commands, camera streams, cloud login or managed firmware flashing. Broad settings access does not mean every desktop function is automated.
